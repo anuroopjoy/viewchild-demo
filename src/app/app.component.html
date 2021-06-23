@@ -1,0 +1,9 @@
+<div appChild>
+  <h1>{{ title }}</h1>
+</div>
+
+<app-child [name]="name"></app-child>
+
+<ng-container #elem *ngIf="useInline; else tpl"> If block </ng-container>
+
+<ng-template #tpl> Else block </ng-template>
