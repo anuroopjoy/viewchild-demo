@@ -2,7 +2,11 @@
   <h1>{{ title }}</h1>
 </div>
 
-<app-child [name]="name"></app-child>
+<ng-container *ngFor="let name of names">
+  <app-child [name]="name"></app-child>
+</ng-container>
+
+<!-- <app-child [name]="name"></app-child> -->
 
 <ng-container #elem *ngIf="useInline; else tpl"> If block </ng-container>
 
