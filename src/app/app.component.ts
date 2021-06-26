@@ -23,56 +23,48 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   title = 'viewchild-app';
   useInline = false;
   names = ['SubComponent', 'SubComponent1', 'SubComponent2'];
+  name = 'SubComponent';
 
-  @ViewChildren(ChildComponent)
-  public childComponents!: QueryList<ChildComponent>;
-  @ViewChild(ChildComponent, { static: true })
+  @ViewChild(ChildComponent, { static: true, read: ViewContainerRef })
   public childComponent!: ChildComponent;
-  @ViewChild(ChildDirective, { static: true })
-  public childDirective!: ChildDirective;
-  @ViewChild('elem', { static: true }) public set childVar(elem: ElementRef) {
+  @ViewChild(ChildDirective) public childDirective!: ChildDirective;
+  @ViewChild(TemplateRef) public childTemplate!: TemplateRef<any>;
+  @ViewChild(ChildService) public childService!: ChildService;
+  @ViewChild('childToken') public childToken!: any;
+  @ViewChild('elem') public set childVar(elem: ElementRef) {
     console.log('Viewchild changed');
+    console.log(elem);
     this._var = elem;
   }
   public get childVar(): ElementRef {
     return this._var;
   }
-  @ViewChild('tpl', { static: true }) public childTemplate!: TemplateRef<any>;
-  @ViewChild(ChildService, { static: true }) public childService!: ChildService;
-  @ViewChild('childToken', { static: true }) public childToken!: any;
-
-  private _var!: ElementRef;
+  @ViewChildren(ChildComponent)
+  public childComponents!: QueryList<ChildComponent>;
+  private _var: any;
 
   ngOnInit(): void {
     console.log('inside OnInit');
-    console.log(this.childComponents);
     console.log(this.childComponent);
-    console.log(this.childDirective);
-    console.log(this.childVar);
-    console.log(this.childTemplate);
-    console.log(this.childService);
-    console.log(this.childToken);
-    setTimeout(() => {
-      this.useInline = true;
-    }, 3000);
   }
   ngAfterViewInit(): void {
     console.log('inside AfterViewInit');
     console.log(this.childComponents);
-    this.childComponents.map((value) => console.log(value));
-    this.childComponents.changes.subscribe(
-      (values: QueryList<ChildComponent>) => {
-        values.map((value) => console.log(value));
-      }
-    );
+    this.childComponents.map((val) => console.log(val));
+    this.childComponents.changes.subscribe((result: QueryList<ChildComponent>) => {
+      result.map((val) => console.log(val));
+    });
     console.log(this.childComponent);
     console.log(this.childDirective);
-    console.log(this.childVar);
     console.log(this.childTemplate);
     console.log(this.childService);
     console.log(this.childToken);
+    console.log(this.childVar);
     setTimeout(() => {
-      this.names.push('SubComponent3');
+      this.useInline = true;
+    }, 3000);
+    setTimeout(() => {
+      this.names.push('SubComponent3')
     }, 3000);
   }
   ngAfterViewChecked(): void {
